@@ -2,8 +2,8 @@ int curPosition = 9;
 int exitPosition = 4;
 int null = -1;
 boolean isGameOver = 0;
-
-int mapGrid[13][4] = {   { null, null, 1, null},
+//                          n     e    s   w 
+int mapGrid[14][4] = {   { null, null, 1, null},
                          { 0, 2, 5, null},
                          { null, 3, null, 1},
                          { null, 4, 6, 2},
@@ -15,23 +15,26 @@ int mapGrid[13][4] = {   { null, null, 1, null},
                          { 7, 10, null, null},
                          { 8, 11, null, 9},
                          { null, 12, null, 10},
-                         { null, null, null, 11}  };
+                         { 13, null, null, 11},
+                         {null, null, 12, null}  };
                          
-char* description [13] = {  "You are in square 0",
-                            "You are in square 1",
-                            "You are in square 2",
-                            "You are in square 3",
-                            "You are in square 4",
-                            "You are in square 5",
-                            "You are in square 6",
-                            "You are in square 7",
-                            "You are in square 8",
-                            "You are in square 9",
-                            "You are in square 10",
-                            "You are in square 11",
-                            "You are in square 12" };
+                         
+char* description [14] = {  "",
+                            "there is a wall to the west and a huge stalagtite",
+                            "there are walls to the north and south",
+                            "there is a wall to the north",
+                            "",
+                            "there are walls to the east and west",
+                            "",
+                            "there is a wall to the west",
+                            "there are walls to the north and east",
+                            "there are walls to the south and west",
+                            "there is a wall to the south",
+                            "there are walls to the north and south",
+                            "",  
+                            ""};
                             
-int trap [13] = { 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3};
+int trap [14] = { 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 3};
 // 0 = nothing
 // 1 = pit fall trap
 // 2 = chained deamon
@@ -41,7 +44,7 @@ int trap [13] = { 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3};
 // the setup routine runs once when you press reset:
 void setup() {                
   Serial.begin(9600);
-  Serial.println("Welcome to the labyrinth!");
+  Serial.println("you awaken in a cavern. scrawled on the ground in front of you are the words 'welcome to the labyrinth!'");
   Serial.println("Type N, E, S, or W to move through the labyrinth.");
 }
 
@@ -102,7 +105,8 @@ void gameOver(){
   isGameOver = 1;
 }
 
-void whereAmI(){ 
+void whereAmI(){
+  if (! isGameOver){
     Serial.print("Your current possition is: "); Serial.println(curPosition);
     Serial.println(description[curPosition]);
     
@@ -116,7 +120,7 @@ void whereAmI(){
       // 2 = chained deamon
       // 3 = magic flames
       case 1:
-        Serial.println("you have encountered a pit fall trap. game over");
+        Serial.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa! a pit fall trap! game over");
         gameOver();
         break;
       case 2:       
@@ -128,7 +132,7 @@ void whereAmI(){
         gameOver();
         break;     
       default:
-        Serial.println("where to now?");
+        if (! isGameOver) Serial.println("where to now?");
     }
-    
+  }  
 }
